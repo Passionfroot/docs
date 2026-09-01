@@ -1,0 +1,65 @@
+---
+title: "Send a message"
+description: "Sends a text message as the member who created the API key and marks the conversation read for the organization."
+---
+
+**POST** `https://workspace.passionfroot.me/api/v1/conversations/{conversationId}/messages`
+
+Sends a text message as the member who created the API key and marks the conversation read for the organization.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `write:conversations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `conversationId` | path | `string` | Yes |  |
+| `Idempotency-Key` | header | `string` | No | Unique key for one logical write. Reuse the key and identical body for retries. |
+
+### JSON body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `text` | `string` | Yes | Plain text or allowed basic HTML. |
+
+```json
+{
+  "text": "Thanks! Could we move the date to September 15?"
+}
+```
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/v1/conversations/{conversationId}/messages' --header 'Authorization: Bearer YOUR_API_KEY' --header 'Idempotency-Key: YOUR_UNIQUE_KEY' --header 'Content-Type: application/json' --data '{"text":"Thanks! Could we move the date to September 15?"}'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `201` | Message sent. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not accessible to this organization. |
+| `409` | The operation conflicts with current state or an identical write is in progress. |
+| `422` | The request is well formed but cannot be processed. |
+| `429` | Rate limit exceeded. |
+| `500` | Unexpected server failure. Re-read state before retrying a write. |
+
+### 201 response
+
+```json
+{
+  "data": {
+    "id": "msg_abc",
+    "conversationId": "conv_abc",
+    "createdAt": "2026-09-01T09:20:00.000Z"
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

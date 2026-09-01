@@ -1,0 +1,60 @@
+---
+title: "Mark a conversation as read"
+description: "Clears the organization's unread state without changing `lastActivityAt`. The operation is naturally idempotent."
+---
+
+**POST** `https://workspace.passionfroot.me/api/v1/conversations/{conversationId}/read`
+
+Clears the organization's unread state without changing `lastActivityAt`. The operation is naturally idempotent.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `write:conversations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `conversationId` | path | `string` | Yes |  |
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/v1/conversations/{conversationId}/read' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The updated conversation. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not accessible to this organization. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "id": "string",
+    "creatorId": "string",
+    "isUnread": true,
+    "isArchived": true,
+    "isBlocked": true,
+    "lastActivityAt": "2026-09-01T12:00:00.000Z",
+    "createdAt": "2026-09-01T12:00:00.000Z",
+    "creator": {
+      "id": null,
+      "displayName": null,
+      "country": null,
+      "note": null,
+      "labels": null,
+      "channels": null
+    }
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

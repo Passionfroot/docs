@@ -1,0 +1,21 @@
+---
+title: "Rate limits"
+description: "Respect per-key and per-IP request limits."
+---
+
+During the alpha, each API key is limited to **2 requests per second** and each source IP is limited to **20 requests per second** across keys. Partner and Creator API surfaces have separate IP buckets.
+
+Successful responses describe the per-key budget:
+
+| Header | Example | Meaning |
+| --- | --- | --- |
+| `RateLimit` | `limit=2, remaining=1, reset=1` | Limit, remaining requests, and seconds until reset. |
+| `RateLimit-Policy` | `2;w=1` | Two requests per one-second window. |
+
+A limited request returns `429` and a `Retry-After` header:
+
+```json
+{ "error": "Too many requests, please try again later." }
+```
+
+Wait for `Retry-After`, add jitter when many workers share a key, and avoid concurrent retry loops. The IP cap can be reached even if every individual key remains below its own limit.

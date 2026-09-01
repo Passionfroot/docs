@@ -1,0 +1,65 @@
+---
+title: "Decline a package request"
+description: "Declines the request and sends the reason to the brand. Naturally idempotent."
+---
+
+**POST** `https://workspace.passionfroot.me/api/creators/v1/requests/{requestId}/decline`
+
+Declines the request and sends the reason to the brand. Naturally idempotent.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:write:proposals`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `requestId` | path | `string` | Yes |  |
+
+### JSON body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `reason` | \`timing | brand\_fit | other\` | No |  |
+| `comment` | `string` | Yes |  |
+
+```json
+{
+  "reason": "timing",
+  "comment": "I do not have availability during the requested launch window."
+}
+```
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/creators/v1/requests/{requestId}/decline' --header 'Authorization: Bearer YOUR_API_KEY' --header 'Content-Type: application/json' --data '{"reason":"timing","comment":"I do not have availability during the requested launch window."}'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The request's current state. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `409` | The operation conflicts with current state or an identical write is in progress. |
+| `429` | Rate limit exceeded. |
+| `503` | Temporary key-verification or write-lock infrastructure failure. Retry after the indicated delay. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "requestId": "req_abc",
+    "collaborationId": "collab_abc",
+    "status": "accepted"
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

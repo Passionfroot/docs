@@ -1,0 +1,49 @@
+---
+title: "List products"
+description: "Returns the creator's complete storefront-visible standalone product catalog. This endpoint is not paginated."
+---
+
+**GET** `https://workspace.passionfroot.me/api/creators/v1/products`
+
+Returns the creator's complete storefront-visible standalone product catalog. This endpoint is not paginated.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:read:collaborations`
+
+## Request
+
+This endpoint has no path, query, or body parameters.
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/creators/v1/products' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | Storefront-visible products. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": [
+    {
+      "id": "prod_abc",
+      "name": "Dedicated Newsletter",
+      "channel": {
+        "id": "chan_xyz",
+        "title": "The Weekly Brief",
+        "platformType": "newsletter"
+      }
+    }
+  ]
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

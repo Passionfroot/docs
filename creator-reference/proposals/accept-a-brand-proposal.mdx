@@ -1,0 +1,60 @@
+---
+title: "Accept a brand proposal"
+description: "Accepts a pending brand-authored proposal and books its dates. Naturally idempotent."
+---
+
+**POST** `https://workspace.passionfroot.me/api/creators/v1/proposals/{proposalId}/accept`
+
+Accepts a pending brand-authored proposal and books its dates. Naturally idempotent.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:write:proposals`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `proposalId` | path | `string` | Yes |  |
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/creators/v1/proposals/{proposalId}/accept' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The proposal's current state. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `409` | The operation conflicts with current state or an identical write is in progress. |
+| `429` | Rate limit exceeded. |
+| `503` | Temporary key-verification or write-lock infrastructure failure. Retry after the indicated delay. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "proposalId": "string",
+    "collaborationId": "string",
+    "requestId": "string",
+    "status": "offer_pending",
+    "createdBy": "creator",
+    "priceCents": "string",
+    "budgetCents": "string",
+    "currency": "string",
+    "packageName": "string",
+    "comment": "string",
+    "placements": [
+      null
+    ]
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

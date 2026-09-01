@@ -1,0 +1,71 @@
+---
+title: "Reject a creator proposal"
+description: "Rejects a creator-authored proposal and cancels the collaboration. Rejection is naturally idempotent."
+---
+
+**POST** `https://workspace.passionfroot.me/api/v1/proposals/{proposalId}/reject`
+
+Rejects a creator-authored proposal and cancels the collaboration. Rejection is naturally idempotent.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `write:proposals`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `proposalId` | path | `string` | Yes |  |
+
+### JSON body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `comment` | `string` | No | Optional reason shown to the creator. |
+
+```json
+{
+  "comment": "The dates no longer work for this launch."
+}
+```
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/v1/proposals/{proposalId}/reject' --header 'Authorization: Bearer YOUR_API_KEY' --header 'Content-Type: application/json' --data '{"comment":"The dates no longer work for this launch."}'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The current proposal state. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not accessible to this organization. |
+| `409` | The operation conflicts with current state or an identical write is in progress. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "proposalId": "string",
+    "collaborationId": "string",
+    "requestId": "string",
+    "status": "offer_pending",
+    "createdBy": "creator",
+    "priceCents": "string",
+    "currency": "string",
+    "packageName": "string",
+    "comment": "string",
+    "placements": [
+      null
+    ]
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

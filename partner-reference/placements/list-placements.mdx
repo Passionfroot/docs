@@ -1,0 +1,77 @@
+---
+title: "List placements"
+description: "Returns scheduled content for the organization. Related creator, channel, collaboration, and campaign objects are opt-in through `include`."
+---
+
+**GET** `https://workspace.passionfroot.me/api/v1/placements`
+
+Returns scheduled content for the organization. Related creator, channel, collaboration, and campaign objects are opt-in through `include`.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `read:collaborations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `startDate` | query | `string (date)` | No | Include placements on or after this calendar date. |
+| `endDate` | query | `string (date)` | No | Include placements on or before this calendar date. |
+| `metricsUpdatedAfter` | query | `string` | No | Include placements whose reported metrics were updated on or after this date or timestamp. |
+| `metricsUpdatedBefore` | query | `string` | No | Include placements whose reported metrics were updated on or before this date or timestamp. |
+| `collaborationId` | query | `string` | No | Return placements belonging to this collaboration. |
+| `status` | query | `string` | No | Comma-separated statuses. |
+| `include` | query | `string` | No | Comma-separated expansions. Supported values are `creator`, `creator.channels`, `collaboration`, and `collaboration.campaign`. |
+| `limit` | query | `integer` | No |  |
+| `cursor` | query | `string` | No | Opaque cursor returned by the previous page. |
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/v1/placements' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | A page of placements. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": [
+    {
+      "id": "plc_123",
+      "creatorId": "creator_abc",
+      "creatorName": "Jane Creator",
+      "collaborationId": "collab_xyz",
+      "date": "2026-09-15T00:00:00.000Z",
+      "name": "Fall launch – Instagram Reel",
+      "status": "confirmed",
+      "platform": "instagram",
+      "postType": "Reel",
+      "url": "https://instagram.com/p/example",
+      "viewCount": 15000,
+      "likeCount": 1200,
+      "commentCount": 45,
+      "shareCount": 30,
+      "metricsLastUpdatedAt": "2026-09-20T14:30:00.000Z",
+      "priceCents": 15750,
+      "usdPriceCents": 15750,
+      "currency": "USD"
+    }
+  ],
+  "pagination": {
+    "nextCursor": "plc_122",
+    "hasMore": true
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

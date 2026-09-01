@@ -1,0 +1,27 @@
+---
+title: "Idempotency"
+description: "Retry supported write operations without creating duplicates."
+---
+
+Non-idempotent write endpoints accept an optional `Idempotency-Key` header. Generate a unique value for each logical action and reuse that same value and request body for every retry.
+
+```http
+Idempotency-Key: 7f3e9a12-4b6c-4d2e-9f1a-8c5b3e7d0a42
+```
+
+We recommend a UUID v4. Keys are 1–255 characters, scoped to the account and endpoint path, and retained for 24 hours.
+
+| Situation | Result |
+| --- | --- |
+| First request | The operation runs and its successful response is stored. |
+| Same key and body | The stored response is returned with `Idempotency-Replayed: true`. |
+| Same key, different body | `422` because one key must identify exactly one request. |
+| First request still running | `409` with `Retry-After`. |
+| Rejected request | The key is released so a corrected request can run. |
+| Indeterminate server failure | The key can remain locked; re-read state before deciding whether to use a new key. |
+
+Partner message and inquiry writes support idempotency. Creator message, create-proposal, and counter-proposal writes support it. Naturally idempotent accept, decline, reject, and mark-as-read operations do not need the header.
+
+<Warning>
+  Without an idempotency key, a timed-out write may still have completed. Read the affected resource before retrying.
+</Warning>

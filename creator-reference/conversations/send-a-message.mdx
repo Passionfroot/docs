@@ -1,0 +1,65 @@
+---
+title: "Send a message"
+description: "Sends a text message to the partner and marks the conversation read for the creator."
+---
+
+**POST** `https://workspace.passionfroot.me/api/creators/v1/conversations/{conversationId}/messages`
+
+Sends a text message to the partner and marks the conversation read for the creator.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:write:conversations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `conversationId` | path | `string` | Yes |  |
+| `Idempotency-Key` | header | `string` | No | Unique key for one logical write. Reuse the key and identical body for retries. |
+
+### JSON body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `text` | `string` | Yes | Plain text or allowed basic HTML. |
+
+```json
+{
+  "text": "Thanks! The draft will be ready by Friday."
+}
+```
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/creators/v1/conversations/{conversationId}/messages' --header 'Authorization: Bearer YOUR_API_KEY' --header 'Idempotency-Key: YOUR_UNIQUE_KEY' --header 'Content-Type: application/json' --data '{"text":"Thanks! The draft will be ready by Friday."}'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `201` | Message sent. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `409` | The operation conflicts with current state or an identical write is in progress. |
+| `422` | The body is valid JSON but references an invalid catalog item or reuses an idempotency key with different input. |
+| `429` | Rate limit exceeded. |
+| `500` | Unexpected server failure. Re-read state before retrying a write. |
+
+### 201 response
+
+```json
+{
+  "data": {
+    "id": "msg_abc",
+    "conversationId": "conv_abc",
+    "createdAt": "2026-09-01T09:20:00.000Z"
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

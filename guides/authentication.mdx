@@ -1,0 +1,30 @@
+---
+title: "Authentication"
+description: "Create, store, and send Passionfroot API keys safely."
+---
+
+Every request requires a Passionfroot API key in the HTTP `Authorization` header.
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+Create keys from **Settings → API** after your account has been approved. Give each integration its own key and the shortest practical expiration date. Because the full value is displayed only once, store it in a secret manager as soon as it is created.
+
+Keys inherit the account that created them:
+
+- Partner keys can access only the partner organization's permitted data.
+- Creator keys can access only that creator account's data.
+- A resource that exists but is outside the key's account is generally returned as `404`, so the API does not disclose its existence.
+
+<Warning>
+  Revoking a key takes effect immediately. Rotate a key by creating its replacement, updating the integration, verifying traffic, and then revoking the old key.
+</Warning>
+
+## Authentication failures
+
+| Status | Meaning | Action |
+| --- | --- | --- |
+| `401` | The key is missing, invalid, revoked, or expired. | Check the header and replace the key if necessary. |
+| `403` | The authenticated account cannot perform the operation. | Confirm that the account has API access and the required permission. |
+| `503` | Key verification is temporarily unavailable. | Retry with backoff; do not rotate a valid key. |

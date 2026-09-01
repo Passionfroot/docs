@@ -1,0 +1,66 @@
+---
+title: "List collaborations"
+description: "Returns collaborations for the organization, optionally expanded with campaign details."
+---
+
+**GET** `https://workspace.passionfroot.me/api/v1/collaborations`
+
+Returns collaborations for the organization, optionally expanded with campaign details.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `read:collaborations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `status` | query | `string` | No | Comma-separated statuses. |
+| `creatorId` | query | `string` | No | Return collaborations with this creator. |
+| `include` | query | `campaign` | No | Set to `campaign` to include campaign details. |
+| `limit` | query | `integer` | No |  |
+| `cursor` | query | `string` | No | Opaque cursor returned by the previous page. |
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/v1/collaborations' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | A page of collaborations. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": [
+    {
+      "id": null,
+      "name": null,
+      "creatorId": null,
+      "campaignId": null,
+      "status": null,
+      "priceCents": null,
+      "usdPriceCents": null,
+      "currency": null,
+      "createdAt": null,
+      "statusUpdatedAt": null,
+      "campaign": null
+    }
+  ],
+  "pagination": {
+    "nextCursor": "string",
+    "hasMore": true
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

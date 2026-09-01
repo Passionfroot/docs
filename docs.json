@@ -1,0 +1,171 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Passionfroot API",
+  "colors": {
+    "primary": "#6D45FF",
+    "light": "#8B6BFF",
+    "dark": "#5633D7"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Get started",
+        "pages": [
+          {
+            "group": "Overview",
+            "pages": [
+              "index",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core concepts",
+            "pages": [
+              "guides/authentication",
+              "guides/pagination",
+              "guides/rate-limits",
+              "guides/idempotency"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Partner API",
+        "groups": [
+          {
+            "group": "Placements",
+            "pages": [
+              "partner-reference/placements/list-placements"
+            ]
+          },
+          {
+            "group": "Creators",
+            "pages": [
+              "partner-reference/creators/list-creators",
+              "partner-reference/creators/get-a-creator",
+              "partner-reference/creators/list-creator-labels"
+            ]
+          },
+          {
+            "group": "Collaborations",
+            "pages": [
+              "partner-reference/collaborations/list-collaborations",
+              "partner-reference/collaborations/get-a-collaboration"
+            ]
+          },
+          {
+            "group": "Conversations",
+            "pages": [
+              "partner-reference/conversations/list-conversations",
+              "partner-reference/conversations/mark-a-conversation-as-read",
+              "partner-reference/conversations/list-conversation-messages",
+              "partner-reference/conversations/send-a-message",
+              "partner-reference/conversations/send-an-inquiry"
+            ]
+          },
+          {
+            "group": "Proposals",
+            "pages": [
+              "partner-reference/proposals/accept-a-creator-proposal",
+              "partner-reference/proposals/reject-a-creator-proposal"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Creator API",
+        "groups": [
+          {
+            "group": "Placements",
+            "pages": [
+              "creator-reference/placements/list-placements"
+            ]
+          },
+          {
+            "group": "Partners",
+            "pages": [
+              "creator-reference/partners/get-a-partner",
+              "creator-reference/partners/list-partners"
+            ]
+          },
+          {
+            "group": "Requests",
+            "pages": [
+              "creator-reference/requests/accept-a-package-request",
+              "creator-reference/requests/decline-a-package-request"
+            ]
+          },
+          {
+            "group": "Catalog",
+            "pages": [
+              "creator-reference/catalog/list-products",
+              "creator-reference/catalog/list-packages"
+            ]
+          },
+          {
+            "group": "Collaborations",
+            "pages": [
+              "creator-reference/collaborations/list-collaborations",
+              "creator-reference/collaborations/get-a-collaboration"
+            ]
+          },
+          {
+            "group": "Conversations",
+            "pages": [
+              "creator-reference/conversations/list-conversations",
+              "creator-reference/conversations/list-conversation-messages",
+              "creator-reference/conversations/send-a-message",
+              "creator-reference/conversations/mark-a-conversation-as-read"
+            ]
+          },
+          {
+            "group": "Proposals",
+            "pages": [
+              "creator-reference/proposals/create-a-proposal",
+              "creator-reference/proposals/counter-a-proposal",
+              "creator-reference/proposals/accept-a-brand-proposal",
+              "creator-reference/proposals/reject-a-brand-proposal"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "href": "https://www.passionfroot.me",
+        "label": "Passionfroot"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Open workspace",
+      "href": "https://workspace.passionfroot.me"
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://www.linkedin.com/company/passionfroot"
+    }
+  },
+  "description": "Build creator and brand workflows with the Passionfroot APIs."
+}

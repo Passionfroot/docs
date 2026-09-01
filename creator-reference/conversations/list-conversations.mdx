@@ -1,0 +1,67 @@
+---
+title: "List conversations"
+description: "Returns conversations ordered by most recent message activity. Deactivated partners are excluded."
+---
+
+**GET** `https://workspace.passionfroot.me/api/creators/v1/conversations`
+
+Returns conversations ordered by most recent message activity. Deactivated partners are excluded.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:read:conversations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `updatedAfter` | query | `string` | No | Include conversations with message activity on or after this date or timestamp. |
+| `partnerId` | query | `string` | No | Return the conversation with this partner, if one exists. |
+| `isUnread` | query | `boolean` | No |  |
+| `isArchived` | query | `boolean` | No |  |
+| `isBlocked` | query | `boolean` | No |  |
+| `q` | query | `string` | No | Case-insensitive search across partner names and message text. |
+| `include` | query | `partner` | No | Set to `partner` to include partner details. |
+| `limit` | query | `integer` | No |  |
+| `cursor` | query | `string` | No | Opaque cursor returned by the previous page. |
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/creators/v1/conversations' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | A page of conversations. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": [
+    {
+      "id": null,
+      "partnerId": null,
+      "isUnread": null,
+      "isArchived": null,
+      "isBlocked": null,
+      "lastActivityAt": null,
+      "createdAt": null,
+      "partner": null
+    }
+  ],
+  "pagination": {
+    "nextCursor": "string",
+    "hasMore": true
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

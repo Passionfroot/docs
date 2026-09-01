@@ -1,0 +1,25 @@
+---
+title: "Pagination"
+description: "Traverse cursor-paginated collections without missing records."
+---
+
+List endpoints use opaque cursor pagination. Set `limit` for the page size, then pass the returned `nextCursor` unchanged as the next request's `cursor`.
+
+```json
+{
+  "data": [],
+  "pagination": {
+    "nextCursor": "eyJ2Ijoi...",
+    "hasMore": true
+  }
+}
+```
+
+```bash
+curl "https://workspace.passionfroot.me/api/v1/placements?limit=100&cursor=eyJ2Ijoi..." \
+  -H "Authorization: Bearer $PASSIONFROOT_API_KEY"
+```
+
+Stop when `hasMore` is `false`. Do not parse, edit, construct, or persist assumptions about cursor contents. If a cursor is rejected after an API update, restart from the first page.
+
+For incremental synchronization, combine pagination with an endpoint's timestamp filter such as `updatedAfter`, `createdAfter`, or `metricsUpdatedAfter`. Keep the filter fixed while walking all pages in that polling window.

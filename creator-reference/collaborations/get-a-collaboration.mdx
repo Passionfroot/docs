@@ -1,0 +1,54 @@
+---
+title: "Get a collaboration"
+description: "Returns one collaboration owned by the creator."
+---
+
+**GET** `https://workspace.passionfroot.me/api/creators/v1/collaborations/{collaborationId}`
+
+Returns one collaboration owned by the creator.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:read:collaborations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `collaborationId` | path | `string` | Yes |  |
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/creators/v1/collaborations/{collaborationId}' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The collaboration. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "id": "string",
+    "name": "string",
+    "partnerId": "string",
+    "status": "pending",
+    "priceCents": "string",
+    "usdPriceCents": "string",
+    "currency": "string",
+    "createdAt": "2026-09-01T12:00:00.000Z",
+    "statusUpdatedAt": "2026-09-01T12:00:00.000Z"
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

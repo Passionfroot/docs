@@ -1,0 +1,92 @@
+---
+title: "Counter a proposal"
+description: "Cancels the pending proposal and replaces it with a new proposal on the same collaboration."
+---
+
+**POST** `https://workspace.passionfroot.me/api/creators/v1/proposals/{proposalId}/counter`
+
+Cancels the pending proposal and replaces it with a new proposal on the same collaboration.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:write:proposals`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `proposalId` | path | `string` | Yes |  |
+| `Idempotency-Key` | header | `string` | No | Unique key for one logical write. Reuse the key and identical body for retries. |
+
+### JSON body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `placements` | `array<object>` | Yes |  |
+| `basePriceCents` | `integer` | Yes | Creator list price for the entire proposal in the collaboration currency. |
+| `packageId` | `string` | No |  |
+| `name` | `string` | No |  |
+| `comment` | `string` | No |  |
+| `autoInvoice` | `boolean` | No |  |
+| `daysUntilInvoiceDue` | `integer` | No |  |
+
+```json
+{
+  "placements": [
+    {
+      "productId": null,
+      "date": null
+    }
+  ],
+  "basePriceCents": 0,
+  "packageId": "string",
+  "name": "string",
+  "comment": "string",
+  "autoInvoice": true,
+  "daysUntilInvoiceDue": 0
+}
+```
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/creators/v1/proposals/{proposalId}/counter' --header 'Authorization: Bearer YOUR_API_KEY' --header 'Idempotency-Key: YOUR_UNIQUE_KEY' --header 'Content-Type: application/json' --data '{"placements":[{"productId":null,"date":null}],"basePriceCents":0,"packageId":"string","name":"string","comment":"string","autoInvoice":true,"daysUntilInvoiceDue":0}'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `201` | The proposal's current state. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `409` | The operation conflicts with current state or an identical write is in progress. |
+| `422` | The body is valid JSON but references an invalid catalog item or reuses an idempotency key with different input. |
+| `429` | Rate limit exceeded. |
+| `503` | Temporary key-verification or write-lock infrastructure failure. Retry after the indicated delay. |
+
+### 201 response
+
+```json
+{
+  "data": {
+    "proposalId": "string",
+    "collaborationId": "string",
+    "requestId": "string",
+    "status": "offer_pending",
+    "createdBy": "creator",
+    "priceCents": "string",
+    "budgetCents": "string",
+    "currency": "string",
+    "packageName": "string",
+    "comment": "string",
+    "placements": [
+      null
+    ]
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

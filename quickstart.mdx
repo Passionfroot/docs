@@ -1,0 +1,32 @@
+---
+title: "Quickstart"
+description: "Authenticate and make your first Passionfroot API request."
+---
+
+## 1. Choose the API surface
+
+Partner workspaces use `/api/v1`. Creator workspaces use `/api/creators/v1`. A key belongs to one account type and cannot be moved between them.
+
+## 2. Authenticate
+
+Pass the key as a Bearer token:
+
+```bash Partner
+curl "https://workspace.passionfroot.me/api/v1/placements?limit=10" \
+  -H "Authorization: Bearer $PASSIONFROOT_API_KEY"
+```
+
+```bash Creator
+curl "https://workspace.passionfroot.me/api/creators/v1/placements?limit=10" \
+  -H "Authorization: Bearer $PASSIONFROOT_API_KEY"
+```
+
+Successful list responses contain `data` and `pagination`. Keep following `pagination.nextCursor` until `pagination.hasMore` is `false`.
+
+## 3. Handle errors and limits
+
+All errors use an `error` string. Treat `401` as an invalid or expired key, `429` as backpressure, and retry server failures only when the operation is safe. See [rate limits](/guides/rate-limits) and [idempotency](/guides/idempotency).
+
+<Tip>
+  Start with a read endpoint and a small `limit`. Add write access only after your integration safely stores secrets and handles retries.
+</Tip>

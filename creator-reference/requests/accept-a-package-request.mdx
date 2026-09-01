@@ -1,0 +1,68 @@
+---
+title: "Accept a package request"
+description: "Accepts the brand's package request as-is and books the requested dates. An empty body is valid. Naturally idempotent."
+---
+
+**POST** `https://workspace.passionfroot.me/api/creators/v1/requests/{requestId}/accept`
+
+Accepts the brand's package request as-is and books the requested dates. An empty body is valid. Naturally idempotent.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:write:proposals`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `requestId` | path | `string` | Yes |  |
+
+### JSON body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `autoInvoice` | `boolean` | No |  |
+| `daysUntilInvoiceDue` | `integer` | No | Required when `autoInvoice` is true. |
+| `requestAssets` | `boolean` | No |  |
+| `forfeitPendingProposal` | `boolean` | No | Must be true to accept the original request while the creator's own proposal is pending. |
+
+```json
+{
+  "autoInvoice": true,
+  "daysUntilInvoiceDue": 30,
+  "requestAssets": true
+}
+```
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/creators/v1/requests/{requestId}/accept' --header 'Authorization: Bearer YOUR_API_KEY' --header 'Content-Type: application/json' --data '{"autoInvoice":true,"daysUntilInvoiceDue":30,"requestAssets":true}'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The request's current state. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `409` | The operation conflicts with current state or an identical write is in progress. |
+| `429` | Rate limit exceeded. |
+| `503` | Temporary key-verification or write-lock infrastructure failure. Retry after the indicated delay. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "requestId": "req_abc",
+    "collaborationId": "collab_abc",
+    "status": "accepted"
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

@@ -1,0 +1,57 @@
+---
+title: "Mark a conversation as read"
+description: "Marks activity up to the latest observed message as read without changing `lastActivityAt`. Naturally idempotent."
+---
+
+**POST** `https://workspace.passionfroot.me/api/creators/v1/conversations/{conversationId}/read`
+
+Marks activity up to the latest observed message as read without changing `lastActivityAt`. Naturally idempotent.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:write:conversations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `conversationId` | path | `string` | Yes |  |
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/creators/v1/conversations/{conversationId}/read' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The updated conversation. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "id": "string",
+    "partnerId": "string",
+    "isUnread": true,
+    "isArchived": true,
+    "isBlocked": true,
+    "lastActivityAt": "2026-09-01T12:00:00.000Z",
+    "createdAt": "2026-09-01T12:00:00.000Z",
+    "partner": {
+      "id": null,
+      "name": null,
+      "websiteUrl": null
+    }
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

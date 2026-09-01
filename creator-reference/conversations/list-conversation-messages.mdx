@@ -1,0 +1,65 @@
+---
+title: "List conversation messages"
+description: "Returns the complete typed timeline newest first. Reading has no side effects. A blocked conversation's timeline is unavailable until it is unblocked in the inbox."
+---
+
+**GET** `https://workspace.passionfroot.me/api/creators/v1/conversations/{conversationId}/messages`
+
+Returns the complete typed timeline newest first. Reading has no side effects. A blocked conversation's timeline is unavailable until it is unblocked in the inbox.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:read:conversations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `conversationId` | path | `string` | Yes |  |
+| `createdAfter` | query | `string` | No | Include messages created on or after this date or timestamp. |
+| `limit` | query | `integer` | No |  |
+| `cursor` | query | `string` | No | Opaque cursor returned by the previous page. |
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/creators/v1/conversations/{conversationId}/messages' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | A page of timeline events. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": [
+    {
+      "id": null,
+      "type": null,
+      "actor": null,
+      "collaborationId": null,
+      "createdAt": null,
+      "text": null,
+      "comment": null,
+      "attachments": null,
+      "proposal": null,
+      "stats": null
+    }
+  ],
+  "pagination": {
+    "nextCursor": "string",
+    "hasMore": true
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

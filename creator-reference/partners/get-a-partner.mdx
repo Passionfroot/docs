@@ -1,0 +1,48 @@
+---
+title: "Get a partner"
+description: "Returns one partner when the creator has a qualifying collaboration with it."
+---
+
+**GET** `https://workspace.passionfroot.me/api/creators/v1/partners/{partnerId}`
+
+Returns one partner when the creator has a qualifying collaboration with it.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:read:collaborations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `partnerId` | path | `string` | Yes |  |
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/creators/v1/partners/{partnerId}' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The partner. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "id": "string",
+    "name": "string",
+    "websiteUrl": "https://example.com"
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

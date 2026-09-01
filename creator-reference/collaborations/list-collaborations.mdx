@@ -1,0 +1,63 @@
+---
+title: "List collaborations"
+description: "Returns the creator's collaborations. Prices are creator earnings, not the amount paid by the brand."
+---
+
+**GET** `https://workspace.passionfroot.me/api/creators/v1/collaborations`
+
+Returns the creator's collaborations. Prices are creator earnings, not the amount paid by the brand.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:read:collaborations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `status` | query | `string` | No | Comma-separated statuses. |
+| `partnerId` | query | `string` | No | Return collaborations with this partner. |
+| `limit` | query | `integer` | No |  |
+| `cursor` | query | `string` | No | Opaque cursor returned by the previous page. |
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/creators/v1/collaborations' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | A page of collaborations. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": [
+    {
+      "id": null,
+      "name": null,
+      "partnerId": null,
+      "status": null,
+      "priceCents": null,
+      "usdPriceCents": null,
+      "currency": null,
+      "createdAt": null,
+      "statusUpdatedAt": null
+    }
+  ],
+  "pagination": {
+    "nextCursor": "string",
+    "hasMore": true
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

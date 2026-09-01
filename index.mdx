@@ -1,0 +1,36 @@
+---
+title: "Passionfroot API"
+description: "Build integrations for brand partners and creators."
+---
+
+The Passionfroot APIs let approved customers connect collaboration, placement, catalog, and conversation data to their own tools. The APIs are currently in alpha, so endpoints may evolve as we learn from early integrations.
+
+<CardGroup cols={2}>
+  <Card title="Partner API" icon="building" href="/partner-reference/placements/list-placements">
+    Work with creators, collaborations, placements, proposals, and conversations on behalf of a brand.
+  </Card>
+
+  <Card title="Creator API" icon="user" href="/creator-reference/placements/list-placements">
+    Work with your own partners, collaborations, placements, catalog, proposals, and conversations.
+  </Card>
+</CardGroup>
+
+## Before you begin
+
+You need an approved Passionfroot account and an API key. The key determines whether a request uses the Partner or Creator API and limits every response to the data available to that account.
+
+<Steps>
+  <Step title="Request API access">
+    Open **Settings → API** in your Passionfroot workspace. If access is not enabled, submit the one-time access request shown there.
+  </Step>
+  <Step title="Create an API key">
+    Once approved, create a key in **Settings → API**, choose an expiration date, and copy it immediately. The full value is shown only once.
+  </Step>
+  <Step title="Make your first request">
+    Follow the [quickstart](/quickstart), then choose the Partner API or Creator API reference.
+  </Step>
+</Steps>
+
+<Warning>
+  Keep API keys on a server. Never place one in browser code, a mobile app, source control, or a public support message.
+</Warning>

@@ -1,0 +1,58 @@
+---
+title: "Get a collaboration"
+description: "Returns a collaboration that is accessible to the organization."
+---
+
+**GET** `https://workspace.passionfroot.me/api/v1/collaborations/{collaborationId}`
+
+Returns a collaboration that is accessible to the organization.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `read:collaborations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `collaborationId` | path | `string` | Yes |  |
+| `include` | query | `campaign` | No | Set to `campaign` to include campaign details. |
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/v1/collaborations/{collaborationId}' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The collaboration. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not accessible to this organization. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "id": "string",
+    "name": "string",
+    "creatorId": "string",
+    "campaignId": "string",
+    "status": "pending",
+    "priceCents": "string",
+    "usdPriceCents": "string",
+    "currency": "string",
+    "createdAt": "2026-09-01T12:00:00.000Z",
+    "statusUpdatedAt": "2026-09-01T12:00:00.000Z",
+    "campaign": null
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

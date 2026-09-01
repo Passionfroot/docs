@@ -1,0 +1,86 @@
+---
+title: "Create a proposal"
+description: "Replies to a brand request with the creator's own products, dates, and list price. `basePriceCents` is denominated in the collaboration currency and is not the creator payout returned by read endpoints."
+---
+
+**POST** `https://workspace.passionfroot.me/api/creators/v1/proposals`
+
+Replies to a brand request with the creator's own products, dates, and list price. `basePriceCents` is denominated in the collaboration currency and is not the creator payout returned by read endpoints.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `creator:write:proposals`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Idempotency-Key` | header | `string` | No | Unique key for one logical write. Reuse the key and identical body for retries. |
+
+### JSON body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+
+```json
+{
+  "requestId": "req_abc",
+  "packageId": "pkg_abc",
+  "placements": [
+    {
+      "productId": "prod_abc",
+      "date": "2026-09-14"
+    },
+    {
+      "productId": "prod_abc",
+      "date": "2026-09-28"
+    }
+  ],
+  "basePriceCents": 250000,
+  "comment": "Both slots are open."
+}
+```
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/creators/v1/proposals' --header 'Authorization: Bearer YOUR_API_KEY' --header 'Idempotency-Key: YOUR_UNIQUE_KEY' --header 'Content-Type: application/json' --data '{"requestId":"req_abc","packageId":"pkg_abc","placements":[{"productId":"prod_abc","date":"2026-09-14"},{"productId":"prod_abc","date":"2026-09-28"}],"basePriceCents":250000,"comment":"Both slots are open."}'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `201` | The proposal's current state. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not owned by this creator. |
+| `409` | The operation conflicts with current state or an identical write is in progress. |
+| `422` | The body is valid JSON but references an invalid catalog item or reuses an idempotency key with different input. |
+| `429` | Rate limit exceeded. |
+| `503` | Temporary key-verification or write-lock infrastructure failure. Retry after the indicated delay. |
+
+### 201 response
+
+```json
+{
+  "data": {
+    "proposalId": "string",
+    "collaborationId": "string",
+    "requestId": "string",
+    "status": "offer_pending",
+    "createdBy": "creator",
+    "priceCents": "string",
+    "budgetCents": "string",
+    "currency": "string",
+    "packageName": "string",
+    "comment": "string",
+    "placements": [
+      null
+    ]
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

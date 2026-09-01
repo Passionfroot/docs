@@ -1,0 +1,58 @@
+---
+title: "Accept a creator proposal"
+description: "Confirms a creator-authored proposal. Accepting an already accepted proposal returns its current state."
+---
+
+**POST** `https://workspace.passionfroot.me/api/v1/proposals/{proposalId}/accept`
+
+Confirms a creator-authored proposal. Accepting an already accepted proposal returns its current state.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `write:proposals`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `proposalId` | path | `string` | Yes |  |
+
+### Example request
+
+```bash
+curl --request POST --url 'https://workspace.passionfroot.me/api/v1/proposals/{proposalId}/accept' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The current proposal state. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `404` | Resource not found or not accessible to this organization. |
+| `409` | The operation conflicts with current state or an identical write is in progress. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": {
+    "proposalId": "string",
+    "collaborationId": "string",
+    "requestId": "string",
+    "status": "offer_pending",
+    "createdBy": "creator",
+    "priceCents": "string",
+    "currency": "string",
+    "packageName": "string",
+    "comment": "string",
+    "placements": [
+      null
+    ]
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

@@ -1,0 +1,64 @@
+---
+title: "List creators"
+description: "Returns creators with a qualifying collaboration with the organization, including private relationship notes and labels."
+---
+
+**GET** `https://workspace.passionfroot.me/api/v1/creators`
+
+Returns creators with a qualifying collaboration with the organization, including private relationship notes and labels.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `read:collaborations`
+
+## Request
+
+### Parameters
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `labelIds` | query | `string` | No | Comma-separated workspace label IDs. A creator matching any label is returned. |
+| `include` | query | `channels` | No | Set to `channels` to include channels and channel metrics. |
+| `limit` | query | `integer` | No |  |
+| `cursor` | query | `string` | No | Opaque cursor returned by the previous page. |
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/v1/creators' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | A page of creators. |
+| `400` | Invalid parameters or body. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": [
+    {
+      "id": "creator_abc",
+      "displayName": "Jane Creator",
+      "country": "US",
+      "note": "Always delivers early",
+      "labels": [
+        {
+          "id": "clb_abc",
+          "name": "High performer"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "nextCursor": "creator_def",
+    "hasMore": true
+  }
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).

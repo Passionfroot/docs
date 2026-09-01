@@ -1,0 +1,46 @@
+---
+title: "List creator labels"
+description: "Returns the complete workspace label catalog in display order. This endpoint is not paginated."
+---
+
+**GET** `https://workspace.passionfroot.me/api/v1/labels`
+
+Returns the complete workspace label catalog in display order. This endpoint is not paginated.
+
+> **Authentication:** Bearer API key<br />**Required scope:** `read:collaborations`
+
+## Request
+
+This endpoint has no path, query, or body parameters.
+
+### Example request
+
+```bash
+curl --request GET --url 'https://workspace.passionfroot.me/api/v1/labels' --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+## Responses
+
+| Status | Description |
+| --- | --- |
+| `200` | The workspace's creator labels. |
+| `401` | Missing, invalid, expired, or revoked API key. |
+| `403` | The key lacks access or the required scope. |
+| `429` | Rate limit exceeded. |
+
+### 200 response
+
+```json
+{
+  "data": [
+    {
+      "id": "clb_abc",
+      "name": "High performer",
+      "color": "green",
+      "position": "a0"
+    }
+  ]
+}
+```
+
+For shared error behavior, see [Authentication](/guides/authentication) and [Rate limits](/guides/rate-limits).
